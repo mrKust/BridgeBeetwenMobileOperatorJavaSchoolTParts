@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-@NoArgsConstructor
 public class TariffsInfo {
 
     @Getter
