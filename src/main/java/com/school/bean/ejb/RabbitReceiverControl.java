@@ -8,6 +8,8 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
+import javax.websocket.EncodeException;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -16,9 +18,10 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+import com.school.ServerSideEndpoint;
 
-@Singleton
 @Startup
+@Singleton
 public class RabbitReceiverControl {
 
     private final static String QUEUE_NAME = "queue1";
