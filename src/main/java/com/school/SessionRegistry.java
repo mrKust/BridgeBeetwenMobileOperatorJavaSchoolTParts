@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class control and stores all user's connections to web socket
+ */
 @Singleton
 public class SessionRegistry {
     private final Set<Session> sessions = new HashSet<>();

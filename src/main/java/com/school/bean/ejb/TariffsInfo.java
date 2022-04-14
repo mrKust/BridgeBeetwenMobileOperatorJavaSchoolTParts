@@ -10,6 +10,8 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -17,9 +19,14 @@ import javax.ejb.Startup;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * Class store the lastest update of tariffs info, and get new, when catch notification from mq
+ */
 @Startup
 @Singleton
 public class TariffsInfo {
+
+    private static final Logger LOG = Logger.getLogger(TariffsInfo.class);
 
     @Getter
     @Setter
@@ -30,6 +37,9 @@ public class TariffsInfo {
         updateInfo();
     }
 
+    /**
+     * Method download new version of tariff info and store it
+     */
     @Interceptors(UpdateSender.class)
     public void updateInfo() {
         try {
@@ -45,7 +55,11 @@ public class TariffsInfo {
                     .get(ClientResponse.class);
 
             this.lastestUpdate = response.getEntity(String.class);
+            LOG.setLevel(Level.INFO);
+            LOG.info("Store new version of tariffs info");
         }   catch (Exception e) {
+            LOG.setLevel(Level.DEBUG);
+            LOG.debug("Couldn't connect to server. Can not store anything");
             this.lastestUpdate = "";
         }
 

@@ -8,8 +8,6 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.inject.Inject;
-import javax.websocket.EncodeException;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -18,8 +16,12 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import com.school.ServerSideEndpoint;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
+/**
+ * Class listen messages from MQ server
+ */
 @Startup
 @Singleton
 public class RabbitReceiverControl {
@@ -29,9 +31,16 @@ public class RabbitReceiverControl {
     private Connection connection = null;
     private Channel channel = null;
 
+    private static final Logger LOG = Logger.getLogger(RabbitReceiverControl.class);
+
     @EJB
     TariffsInfo tariffsInfo;
 
+    /**
+     * Create connection to MQ server and catch new messages
+     * @throws IOException
+     * @throws TimeoutException
+     */
     @PostConstruct
     void init() throws IOException, TimeoutException {
         factory = new ConnectionFactory();
@@ -39,13 +48,14 @@ public class RabbitReceiverControl {
         connection = factory.newConnection();
         channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        System.out.println(" [*] Waiting for messages.");
+        LOG.setLevel(Level.INFO);
+        LOG.info(" [*] Waiting for messages.");
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
                                        byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + message + "'");
+                LOG.info(" [x] Received '" + message + "'");
                 tariffsInfo.updateInfo();
             }
         };
