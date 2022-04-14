@@ -32,18 +32,23 @@ public class TariffsInfo {
 
     @Interceptors(UpdateSender.class)
     public void updateInfo() {
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+        try {
+            ClientConfig clientConfig = new DefaultClientConfig();
+            clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 
-        Client client = Client.create(clientConfig);
-        WebResource webResource = client.resource("http://localhost:8081/api/tariffsInfo");
+            Client client = Client.create(clientConfig);
+            WebResource webResource = client.resource("http://localhost:8081/api/tariffsInfo");
 
-        ClientResponse response = webResource
-                .accept(MediaType.APPLICATION_JSON_TYPE)
-                .type(MediaType.APPLICATION_JSON_TYPE)
-                .get(ClientResponse.class);
+            ClientResponse response = webResource
+                    .accept(MediaType.APPLICATION_JSON_TYPE)
+                    .type(MediaType.APPLICATION_JSON_TYPE)
+                    .get(ClientResponse.class);
 
-        this.lastestUpdate = response.getEntity(String.class);
+            this.lastestUpdate = response.getEntity(String.class);
+        }   catch (Exception e) {
+            this.lastestUpdate = "";
+        }
+
 
     }
 }

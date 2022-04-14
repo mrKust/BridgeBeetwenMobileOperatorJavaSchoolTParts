@@ -24,7 +24,7 @@ import com.school.ServerSideEndpoint;
 @Singleton
 public class RabbitReceiverControl {
 
-    private final static String QUEUE_NAME = "queue1";
+    private final static String QUEUE_NAME = "queue2";
     private ConnectionFactory factory = null;
     private Connection connection = null;
     private Channel channel = null;
@@ -38,7 +38,7 @@ public class RabbitReceiverControl {
         factory.setHost("localhost");
         connection = factory.newConnection();
         channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(" [*] Waiting for messages.");
         Consumer consumer = new DefaultConsumer(channel) {
             @Override

@@ -1,0 +1,15 @@
+
+s
+java:S1450"VRemove the "factory" field and declare it as a local variable in the relevant methods.(ñ¡íş8ŒÖâÅ‚0
+g
+java:S1124"EReorder the modifiers to comply with the Java Language Specification.(ç›Ñõüÿÿÿÿ8•ÖâÅ‚0
+U	java:S106*"9Replace this use of System.out or System.err by a logger.(ÜË“ä8¦ÖâÅ‚0
+V
+java:S4719/"9Replace charset name argument with StandardCharsets.UTF_8(ò”®ª8®ÖâÅ‚0
+U	java:S1060"9Replace this use of System.out or System.err by a logger.(×™Ûó8¯ÖâÅ‚0
+M
+java:S1128"0Remove this unused import 'javax.inject.Inject'.(ì–íÔ8±ÖâÅ‚0
+^
+java:S1128"<Remove this unused import 'javax.websocket.EncodeException'.(»Óí½ùÿÿÿÿ8²ÖâÅ‚0
+\
+java:S1128":Remove this unused import 'com.school.ServerSideEndpoint'.(ú¿½½ÿÿÿÿÿ8³ÖâÅ‚0
